@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(restSecProps.isAllowCredentials());
         configuration.setExposedHeaders(restSecProps.getExposedHeaders());
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/v1/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable().exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint())
                 .and().authorizeRequests()
                 .antMatchers(restSecProps.getAllowedPublicApis().toArray(String[]::new)).permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/api/v1/**").permitAll().anyRequest().authenticated().and()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
