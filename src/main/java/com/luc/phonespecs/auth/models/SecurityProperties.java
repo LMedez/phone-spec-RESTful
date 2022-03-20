@@ -13,6 +13,7 @@ public class SecurityProperties {
 
 	CookieProperties cookieProps;
 	FirebaseProperties firebaseProps;
+	String techSpecsApiKey;
 	boolean allowCredentials;
 	List<String> allowedOrigins;
 	List<String> allowedHeaders;
