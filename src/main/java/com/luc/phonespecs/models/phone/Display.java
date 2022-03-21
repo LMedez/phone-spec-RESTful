@@ -22,18 +22,20 @@ public class Display {
 
     public void setHz(String hz) {
         String[] splited = hz.split(",");
+        if (splited.length <= 1) return;
+        if (!splited[1].contains("hz")) return;
 
-        this.hz = splited[1].replaceAll(" ","");
+        this.hz = splited[1].replaceAll(" ", "");
     }
 
     public void setType(String type) {
-        if(type.isEmpty()) return;
+        if (type.isEmpty()) return;
         String[] splited = type.split(",");
         this.type = splited[0];
     }
 
     public void setAspectRatio(String aspectRatio) {
-        if(aspectRatio.isEmpty()) return;
+        if (aspectRatio.isEmpty()) return;
         String[] splited = aspectRatio.split(",");
         this.aspectRatio = splited[1].split("\\s+")[1];
     }
@@ -44,7 +46,7 @@ public class Display {
     }
 
     public void setResolution(String resolution) {
-        if(resolution.isEmpty()) return;
+        if (resolution.isEmpty()) return;
         String[] splited = resolution.split(",");
         this.resolution = splited[0];
     }

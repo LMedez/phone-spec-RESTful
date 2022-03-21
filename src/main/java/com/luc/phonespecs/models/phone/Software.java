@@ -14,6 +14,6 @@ public class Software {
 
     public void setOsVersion(String osVersion) {
         String[] splited = osVersion.split("\\s+");
-        this.osVersion = splited[1];
+        this.osVersion = splited[1].replaceAll(",","");
     }
 }

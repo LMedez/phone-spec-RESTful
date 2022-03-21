@@ -13,6 +13,6 @@ import java.util.Map;
 @FeignClient(name = "techSpecClient", url ="https://api-mobilespecs.azharimm.site/v2/")
 public interface TechSpecClient {
 
-    @GetMapping("samsung_galaxy_a72-10469")
+    @GetMapping("huawei_nova_8_5g-10645")
     ResponseEntity<PhoneDetails> findUsers();
 }

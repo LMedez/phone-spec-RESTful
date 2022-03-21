@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
-
 public class Audio {
-    private String output;
-    private String channel;
-    private String DACFrequency;
+    private String output = "3.5mm jack";
+    private boolean hasOutput;
+
+    public void setHasOutput(String hasOutput) {
+        this.hasOutput = hasOutput.startsWith("Y");
+
+    }
 }

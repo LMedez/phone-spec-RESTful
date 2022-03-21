@@ -1,22 +1,34 @@
 package com.luc.phonespecs.models.phone;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
-@AllArgsConstructor
 public class Camera {
-    @SerializedName("Resolution")
-    private String resolution;
-    @SerializedName("Video Resolution")
-    private String videoResolution;
-    @SerializedName("Zoom")
-    private String zoom;
-    @SerializedName("Flash")
-    private String flash;
-    @SerializedName("Image Format")
-    private String imageFormat;
+    private String[] features;
+    private String[] video;
+    private ArrayList<String> mp;
+
+    public void setFeatures(String features) {
+        String features2 = features.replaceAll(" ","");
+        this.features = features2.split(",");
+    }
+
+    public void setVideo(String video) {
+        String videoSplited = video.replaceAll(" ","");
+        if (video.contains(";"))
+            videoSplited = video.replace(";", ",").replaceAll(" ","");
+        this.video = videoSplited.split(",");
+    }
+
+    public void setMp(String mp) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        String[] splited = mp.split("\n");
+        for (String s : splited) {
+            arrayList.add(s.split(",")[0]);
+        }
+        this.mp = arrayList;
+    }
+
 }

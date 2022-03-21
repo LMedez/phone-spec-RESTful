@@ -7,6 +7,7 @@ import lombok.Data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Date;
 
 @Data
@@ -14,21 +15,42 @@ import java.util.Date;
 public class PhoneDetails {
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String id;
+    private String thumbnail;
+    private String name;
+    private String dimension;
+    private ArrayList<String> phoneImages;
     private Camera frontCamera;
     private Camera backCamera;
+    private Wireless wireless;
     private String brand;
-    private String model;
+    private String[] models;
     private Date released;
-    private String version;
     private Software software;
     private Hardware hardware;
-    private Image image;
-    private int[] price;
-    private Ports ports;
+    private String[] price;
     private Audio audio;
-    private Design design;
     private Display display;
+    private String weight;
+
+    public void setDimension(String dimension) {
+        this.dimension = dimension.split("\\(")[0];
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight.split("\\(")[0];
+    }
+
+    public void setPrice(String price) {
+        if (price.contains("About")) return;
+        String price2 = price.replaceAll(" ", "");
+        this.price = price2.split("/");
+    }
+
+    public void setModels(String models) {
+        String models2 = models.replaceAll(" ","");
+
+        this.models = models2.split(",");
+    }
 
     public void setReleased(String released) {
         try {
