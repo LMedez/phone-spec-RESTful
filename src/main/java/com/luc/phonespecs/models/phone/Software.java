@@ -11,7 +11,7 @@ public class Software {
     @SerializedName("OS")
     private String OS;
     @SerializedName("OS Version")
-    private String OSVersion;
+    private String osVersion;
     @SerializedName("Kernel Version")
     private String kernelVersion;
 }

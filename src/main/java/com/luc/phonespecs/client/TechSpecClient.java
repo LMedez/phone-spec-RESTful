@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
+import java.util.Map;
 
-@FeignClient(name = "techSpecClient", url ="${api.tech-spec.base-url}")
+@FeignClient(name = "techSpecClient", url ="https://api-mobilespecs.azharimm.site/v2/")
 public interface TechSpecClient {
 
-    @GetMapping("/product/get/60d43a378f19b751ae35436e")
-    @Headers("Content-Type: application/json")
+    @GetMapping("samsung_galaxy_a72-10469")
     ResponseEntity<PhoneDetails> findUsers();
 }
