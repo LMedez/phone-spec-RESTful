@@ -6,16 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class Processor {
-    @SerializedName("CPU")
     private String CPU;
-    @SerializedName("CPU Clock Speed")
-    private String CPUClockSpeed;
-    @SerializedName("GPU")
+    private String chipset;
     private String GPU;
-    @SerializedName("GPU Clock Speed")
-    private String GPUClockSpeed;
-    @SerializedName("GPU Dedicated Memory")
-    private String GPUDedicatedMemory;
+
 }

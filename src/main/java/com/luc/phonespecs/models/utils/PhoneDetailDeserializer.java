@@ -25,8 +25,15 @@ public class PhoneDetailDeserializer extends StdDeserializer<PhoneDetails> {
 
         JsonNode productNode = jp.getCodec().readTree(jp);
         PhoneDetails phoneDetails = new PhoneDetails();
-        Gson gson = new Gson();
+        Display display = new Display();
+        Software software = new Software();
+        Hardware hardware = new Hardware();
+        Processor processor = new Processor();
+        Memory memory = new Memory();
 
+
+        Gson gson = new Gson();
+        memory.setInternal(productNode.get("data").get("storage").asText());
         productNode.get("data").get("specifications").forEach(jsonNode -> {
             jsonNode.get("specs").forEach(jsonNode1 -> {
                 if (jsonNode1.get("key").textValue().equals("Announced")) {
@@ -35,26 +42,74 @@ public class PhoneDetailDeserializer extends StdDeserializer<PhoneDetails> {
                     });
                 }
 
-                if (jsonNode1.get("key").textValue().equals("Announced")) {
+                if (jsonNode1.get("key").textValue().equals("Type")) {
+                    if (jsonNode.get("title").textValue().equals("Display")){
+                        jsonNode1.get("val").forEach(jsonNode2 -> {
+                            display.setType(jsonNode2.asText());
+                            display.setHz(jsonNode2.asText());
+                        });
+                    }
+                }
+
+                if (jsonNode1.get("key").textValue().equals("Resolution")) {
                     jsonNode1.get("val").forEach(jsonNode2 -> {
-                        phoneDetails.setReleased(jsonNode2.asText());
+                        display.setAspectRatio(jsonNode2.asText());
+                        display.setPpi(jsonNode2.asText());
+                        display.setResolution(jsonNode2.asText());
                     });
                 }
 
-                if (jsonNode1.get("key").textValue().equals("Announced")) {
+                if (jsonNode1.get("key").textValue().equals("Size")) {
                     jsonNode1.get("val").forEach(jsonNode2 -> {
-                        phoneDetails.setReleased(jsonNode2.asText());
+                        display.setInch(jsonNode2.asText());
                     });
                 }
 
-                if (jsonNode1.get("key").textValue().equals("Announced")) {
+                /////////////////////////////////////////////////////////////
+
+                if (jsonNode1.get("key").textValue().equals("OS")) {
                     jsonNode1.get("val").forEach(jsonNode2 -> {
-                        phoneDetails.setReleased(jsonNode2.asText());
+                        software.setOS(jsonNode2.asText());
+                        software.setOsVersion(jsonNode2.asText());
+                    });
+                }
+
+                if (jsonNode1.get("key").textValue().equals("Chipset")) {
+                    jsonNode1.get("val").forEach(jsonNode2 -> {
+                        processor.setChipset(jsonNode2.asText());
+                    });
+                }
+
+                if (jsonNode1.get("key").textValue().equals("CPU")) {
+                    jsonNode1.get("val").forEach(jsonNode2 -> {
+                        processor.setCPU(jsonNode2.asText());
+                    });
+                }
+
+                if (jsonNode1.get("key").textValue().equals("GPU")) {
+                    jsonNode1.get("val").forEach(jsonNode2 -> {
+                        processor.setGPU(jsonNode2.asText());
+                    });
+                }
+
+                if (jsonNode1.get("key").textValue().equals("Card slot")) {
+                    jsonNode1.get("val").forEach(jsonNode2 -> {
+                        memory.setCardSlot(jsonNode2.asText());
+                    });
+                }
+
+                if (jsonNode1.get("key").textValue().equals("Internal")) {
+                    jsonNode1.get("val").forEach(jsonNode2 -> {
+                        memory.setRam(jsonNode2.asText());
                     });
                 }
 
             });
         });
+        hardware.setProcessor(processor);
+        hardware.setMemory(memory);
+        phoneDetails.setDisplay(display);
+        phoneDetails.setHardware(hardware);
         return phoneDetails;
     }
 
