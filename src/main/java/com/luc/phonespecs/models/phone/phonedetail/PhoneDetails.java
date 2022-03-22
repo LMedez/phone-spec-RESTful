@@ -1,10 +1,9 @@
-package com.luc.phonespecs.models.phone;
+package com.luc.phonespecs.models.phone.phonedetail;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.luc.phonespecs.models.utils.PhoneDetailDeserializer;
 import lombok.Data;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;

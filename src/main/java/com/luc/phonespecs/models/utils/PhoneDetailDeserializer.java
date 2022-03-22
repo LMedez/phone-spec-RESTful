@@ -4,13 +4,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.google.gson.Gson;
-import com.google.gson.internal.Streams;
-import com.luc.phonespecs.models.phone.*;
+import com.luc.phonespecs.models.phone.phonedetail.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class PhoneDetailDeserializer extends StdDeserializer<PhoneDetails> {
 

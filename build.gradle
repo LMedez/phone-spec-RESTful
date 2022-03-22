@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.6.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.luc'
@@ -9,33 +9,36 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.security:spring-security-oauth2-resource-server'
-	implementation 'org.springframework.security:spring-security-oauth2-jose'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1'
-	implementation 'org.springframework.cloud:spring-cloud-dependencies:2021.0.1'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.1'
+    implementation 'org.springframework.cloud:spring-cloud-dependencies:2021.0.1'
 
-	implementation 'com.google.firebase:firebase-admin:8.1.0'
+    implementation("com.google.cloud:spring-cloud-gcp-starter-data-firestore")
+    implementation platform("com.google.cloud:spring-cloud-gcp-dependencies:3.1.0")
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.google.firebase:firebase-admin:8.1.0'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
