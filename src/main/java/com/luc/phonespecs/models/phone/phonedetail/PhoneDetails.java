@@ -7,7 +7,9 @@ import lombok.Data;
 import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @JsonDeserialize(using = PhoneDetailDeserializer.class)
@@ -22,11 +24,11 @@ public class PhoneDetails {
     private Camera backCamera;
     private Wireless wireless;
     private String brand;
-    private String[] models;
+    private List<String> models;
     private Date released;
     private Software software;
     private Hardware hardware;
-    private String[] price;
+    private List<String> price;
     private Audio audio;
     private Display display;
     private String weight;
@@ -42,13 +44,13 @@ public class PhoneDetails {
     public void setPrice(String price) {
         if (price.contains("About")) return;
         String price2 = price.replaceAll(" ", "");
-        this.price = price2.split("/");
+        this.price = new ArrayList<>(Arrays.asList(price2.split("/")));
     }
 
     public void setModels(String models) {
         String models2 = models.replaceAll(" ","");
 
-        this.models = models2.split(",");
+        this.models = new ArrayList<>(Arrays.asList(models2.split(",")));
     }
 
     public void setReleased(String released) {

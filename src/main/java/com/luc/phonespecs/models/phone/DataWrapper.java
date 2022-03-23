@@ -9,10 +9,9 @@ import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-@AllArgsConstructor
-public class PhoneBrandWrapper {
-    @JsonProperty("data")
-    private List<PhoneBrand> phoneBrands;
-    public PhoneBrandWrapper() {}
+public class DataWrapper {
+
+    @JsonProperty("phones")
+    private List<BrandPhones> brandPhones;
 
 }

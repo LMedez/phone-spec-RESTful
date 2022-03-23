@@ -3,6 +3,7 @@ package com.luc.phonespecs.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.luc.phonespecs.models.phone.PhoneBrand;
+import com.luc.phonespecs.models.phone.phonedetail.PhoneDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,15 +29,22 @@ public class FirestoreService {
         return phoneBrands;
     }
 
-    public void saveBrand(List<PhoneBrand> phoneBrands) {
+    public void addPhoneDetail(List<PhoneDetails> phoneDetails) {
+        CollectionReference colRef = db.collection("phone_details");
+        WriteBatch batch = db.batch();
+        for (PhoneDetails data : phoneDetails) {
+            batch.create(colRef.document(), data);
+        }
+        batch.commit();
+    }
+
+    public void saveBrand(List<PhoneBrand> phoneBrands) throws ExecutionException, InterruptedException {
         CollectionReference colRef = db.collection("brands");
         WriteBatch batch = db.batch();
         for (PhoneBrand data : phoneBrands) {
             batch.create(colRef.document(), data);
         }
-
-        ApiFuture<List<WriteResult>> futureList = batch.commit();
-
+        batch.commit();
     }
 
 }

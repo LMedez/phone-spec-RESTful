@@ -37,7 +37,8 @@ public class Display {
     public void setAspectRatio(String aspectRatio) {
         if (aspectRatio.isEmpty()) return;
         String[] splited = aspectRatio.split(",");
-        this.aspectRatio = splited[1].split("\\s+")[1];
+        if (splited.length > 1)
+            this.aspectRatio = splited[1].split("\\s+")[1];
     }
 
     public void setPpi(String ppi) {

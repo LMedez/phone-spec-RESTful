@@ -11,6 +11,12 @@ public class BrandPhones {
     private String brandName;
     @JsonProperty("phone_name")
     private String phoneName;
+    @JsonProperty("slug")
+    private String slug;
     @JsonProperty("image")
     private String image;
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName.replaceAll(" ","");
+    }
 }

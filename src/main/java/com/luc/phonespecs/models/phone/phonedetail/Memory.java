@@ -6,18 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class Memory {
     private ArrayList<String> internal;
     private String cardSlot;
-    private String[] ram;
+    private List<String> ram;
 
     public void setInternal(String internal) {
         String[] splited = internal.split("/");
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(splited[0]);
-        arrayList.add(splited[1].split("\\s+")[0]);
+        if (splited.length > 1)
+            arrayList.add(splited[1].split("\\s+")[0]);
         this.internal = arrayList;
     }
 
@@ -36,6 +39,6 @@ public class Memory {
                 splited2.add(s.split("\\s+")[1]);
         }
 
-        this.ram = splited2.stream().distinct().toArray(String[]::new);
+        this.ram = splited2.stream().distinct().collect(Collectors.toList());
     }
 }
