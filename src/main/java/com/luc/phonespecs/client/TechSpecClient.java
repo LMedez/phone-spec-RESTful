@@ -24,7 +24,7 @@ public interface TechSpecClient {
     ResponseEntity<PhoneBrandWrapper> getAllBrands();
 
     @GetMapping(path = "brands/{brandSlug}")
-    ResponseEntity<ObjectWrapper> getAllPhoneBrand(@PathVariable String brandSlug);
+    ResponseEntity<ObjectWrapper> getAllPhoneBrand(@PathVariable String brandSlug, @RequestParam(required = false) String page);
 
     @GetMapping(path = "{slug}")
     ResponseEntity<PhoneDetails> getPhoneDetail(@PathVariable String slug);

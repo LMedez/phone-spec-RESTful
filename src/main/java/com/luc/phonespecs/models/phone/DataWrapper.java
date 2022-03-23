@@ -10,8 +10,13 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DataWrapper {
+    @JsonProperty("current_page")
+    private int currentPage;
 
     @JsonProperty("phones")
     private List<BrandPhones> brandPhones;
+
+    @JsonProperty("last_page")
+    private int lastPage;
 
 }

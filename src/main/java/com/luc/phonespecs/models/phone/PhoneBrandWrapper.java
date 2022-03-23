@@ -13,6 +13,7 @@ import java.util.List;
 public class PhoneBrandWrapper {
     @JsonProperty("data")
     private List<PhoneBrand> phoneBrands;
+
     public PhoneBrandWrapper() {}
 
 }

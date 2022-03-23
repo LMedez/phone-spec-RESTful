@@ -35,7 +35,7 @@ public class Memory {
         for (String s : splited) {
             if (s.startsWith(" "))
                 splited2.add(s.replaceFirst(" ", "").split("\\s+")[1]);
-            else
+            else if(splited2.size() > 1)
                 splited2.add(s.split("\\s+")[1]);
         }
 

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ObjectWrapper {
+
     @JsonProperty("data")
     private DataWrapper dataWrapper;
 

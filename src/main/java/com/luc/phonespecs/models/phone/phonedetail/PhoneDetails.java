@@ -49,7 +49,6 @@ public class PhoneDetails {
 
     public void setModels(String models) {
         String models2 = models.replaceAll(" ","");
-
         this.models = new ArrayList<>(Arrays.asList(models2.split(",")));
     }
 

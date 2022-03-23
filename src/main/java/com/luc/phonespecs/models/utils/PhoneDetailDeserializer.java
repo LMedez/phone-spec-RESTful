@@ -36,7 +36,9 @@ public class PhoneDetailDeserializer extends StdDeserializer<PhoneDetails> {
         Audio audio = new Audio();
 
         memory.setInternal(productNode.get("data").get("storage").asText());
-        phoneDetails.setThumbnail(productNode.get("data").get("thumbnail").textValue());
+        if (productNode.get("data").get("thumbnail") != null)
+            phoneDetails.setThumbnail(productNode.get("data").get("thumbnail").textValue());
+
         ArrayList<String> array = new ArrayList<>();
         productNode.get("data").get("phone_images").forEach(jsonNode2 -> {
             array.add(jsonNode2.textValue());
