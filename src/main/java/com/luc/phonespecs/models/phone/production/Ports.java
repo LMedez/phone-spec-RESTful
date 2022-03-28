@@ -1,4 +1,4 @@
-package com.luc.phonespecs.models.phone.phonedetail;
+package com.luc.phonespecs.models.phone.production;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

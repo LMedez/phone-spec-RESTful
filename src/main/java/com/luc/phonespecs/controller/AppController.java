@@ -1,18 +1,41 @@
 package com.luc.phonespecs.controller;
 
 import com.luc.phonespecs.auth.models.User;
+import com.luc.phonespecs.exceptions.ResourceNotFoundException;
+import com.luc.phonespecs.models.phone.production.PhoneDetails;
+import com.luc.phonespecs.service.AppServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("api/v1")
 public class AppController {
 
-    @GetMapping(path = "/test")
-    public ResponseEntity<User> test(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(user);
+    @Autowired
+    private AppServices appServices;
+
+    @GetMapping("latest-releases")
+    public ResponseEntity<List<PhoneDetails>> latestReleases(@RequestParam(required = false) Integer limit) {
+        int phonesLimit = 20;
+        if (limit != null) {
+            phonesLimit = limit;
+        }
+
+        return ResponseEntity.ok(appServices.getLatestReleases(phonesLimit));
+    }
+
+    @GetMapping("best-camera")
+    public ResponseEntity<List<PhoneDetails>> withBestCamera(@RequestParam(required = false) Integer limit) {
+        int phonesLimit = 20;
+        if (limit != null) {
+            phonesLimit = limit;
+        }
+
+        return ResponseEntity.ok(appServices.getWithBestCamera(phonesLimit));
     }
 }

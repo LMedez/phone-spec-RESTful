@@ -1,24 +1,16 @@
 package com.luc.phonespecs.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.luc.phonespecs.client.TechSpecClient;
 import com.luc.phonespecs.models.phone.*;
-import com.luc.phonespecs.models.phone.phonedetail.PhoneDetails;
+import com.luc.phonespecs.models.phone.development.PhoneDetails;
 import com.luc.phonespecs.service.FirestoreService;
-import feign.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -93,7 +85,7 @@ public class TechSpecApiController {
             phoneDetails.add(techSpecClient.getPhoneDetail(brandPhones.getSlug()).getBody());
         });
 
-        firestoreService.addPhoneDetail(phoneDetails);
+        //firestoreService.addPhoneDetail(phoneDetails);
         return ResponseEntity.ok(phoneDetails.size());
     }
 

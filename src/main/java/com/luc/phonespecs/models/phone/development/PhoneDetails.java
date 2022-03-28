@@ -1,5 +1,6 @@
-package com.luc.phonespecs.models.phone.phonedetail;
+package com.luc.phonespecs.models.phone.development;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.luc.phonespecs.models.utils.PhoneDetailDeserializer;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Data
 @JsonDeserialize(using = PhoneDetailDeserializer.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PhoneDetails {
     static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 

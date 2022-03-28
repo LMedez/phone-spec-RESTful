@@ -2,12 +2,14 @@ package com.luc.phonespecs.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.luc.phonespecs.exceptions.ConcurrentException;
 import com.luc.phonespecs.models.phone.PhoneBrand;
-import com.luc.phonespecs.models.phone.phonedetail.PhoneDetails;
+import com.luc.phonespecs.models.phone.production.PhoneDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -47,4 +49,38 @@ public class FirestoreService {
         batch.commit();
     }
 
+    public List<PhoneDetails> getLatestReleases(Integer limit) {
+        try {
+            CollectionReference colRef = db.collection("phone_details");
+            ApiFuture<QuerySnapshot> future = colRef.whereNotEqualTo("released", null)
+                    .orderBy("released", Query.Direction.DESCENDING)
+                    .limit(limit)
+                    .get();
+            List<PhoneDetails> phoneDetails = new ArrayList<>();
+            for (DocumentSnapshot ds : future.get().getDocuments()) {
+                phoneDetails.add(ds.toObject(PhoneDetails.class));
+            }
+
+            return phoneDetails;
+        } catch (Exception e) {
+            throw new ConcurrentException("Error on getting data from Firestore");
+        }
+    }
+
+    public List<PhoneDetails> getWithBestCamera(Integer limit) {
+        try {
+            CollectionReference colRef = db.collection("phone_details");
+            ApiFuture<QuerySnapshot> future = colRef.whereArrayContainsAny("backCamera.mp", Arrays.asList("50 MP"))
+                    .limit(limit)
+                    .get();
+            List<PhoneDetails> phoneDetails = new ArrayList<>();
+            for (DocumentSnapshot ds : future.get().getDocuments()) {
+                phoneDetails.add(ds.toObject(PhoneDetails.class));
+            }
+
+            return phoneDetails;
+        } catch (Exception e) {
+            throw new ConcurrentException("Error on getting data from Firestore");
+        }
+    }
 }

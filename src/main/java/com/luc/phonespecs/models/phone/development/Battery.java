@@ -1,4 +1,4 @@
-package com.luc.phonespecs.models.phone.phonedetail;
+package com.luc.phonespecs.models.phone.development;
 
 import lombok.Data;
 
