@@ -70,7 +70,8 @@ public class FirestoreService {
     public List<PhoneDetails> getWithBestCamera(Integer limit) {
         try {
             CollectionReference colRef = db.collection("phone_details");
-            ApiFuture<QuerySnapshot> future = colRef.whereArrayContainsAny("backCamera.mp", Arrays.asList("50 MP"))
+            ApiFuture<QuerySnapshot> future = colRef.whereArrayContainsAny("backCamera.mp", Arrays.asList("50 MP", "48 MP", "55MP", "64 MP"))
+                    .whereNotEqualTo("models", null)
                     .limit(limit)
                     .get();
             List<PhoneDetails> phoneDetails = new ArrayList<>();
@@ -80,7 +81,27 @@ public class FirestoreService {
 
             return phoneDetails;
         } catch (Exception e) {
-            throw new ConcurrentException("Error on getting data from Firestore");
+            throw new ConcurrentException(e.getMessage());
+        }
+    }
+
+    public List<PhoneDetails> getWithBestCameraByBrand(Integer limit, String brand) {
+        try {
+            CollectionReference colRef = db.collection("phone_details");
+            ApiFuture<QuerySnapshot> future = colRef
+                    .whereArrayContainsAny("backCamera.mp", Arrays.asList("50 MP", "48 MP", "55MP", "64 MP"))
+                    .whereNotEqualTo("models", null)
+                    .whereEqualTo("brand", brand)
+                    .limit(limit)
+                    .get();
+            List<PhoneDetails> phoneDetails = new ArrayList<>();
+            for (DocumentSnapshot ds : future.get().getDocuments()) {
+                phoneDetails.add(ds.toObject(PhoneDetails.class));
+            }
+
+            return phoneDetails;
+        } catch (Exception e) {
+            throw new ConcurrentException(e.getMessage());
         }
     }
 }

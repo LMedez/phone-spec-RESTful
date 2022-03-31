@@ -30,12 +30,17 @@ public class AppController {
     }
 
     @GetMapping("best-camera")
-    public ResponseEntity<List<PhoneDetails>> withBestCamera(@RequestParam(required = false) Integer limit) {
+    public ResponseEntity<List<PhoneDetails>> withBestCamera(@RequestParam(required = false) Integer limit, @RequestParam(required = false) String brand) {
         int phonesLimit = 20;
         if (limit != null) {
             phonesLimit = limit;
         }
 
+        if (brand != null) {
+            return ResponseEntity.ok(appServices.getWithBestCameraByBrand(phonesLimit, brand));
+        }
+
         return ResponseEntity.ok(appServices.getWithBestCamera(phonesLimit));
     }
+
 }

@@ -49,7 +49,6 @@ public class SecurityFilter extends OncePerRequestFilter {
         boolean strictServerSessionEnabled = securityProps.getFirebaseProps().isEnableStrictServerSession();
         Cookie sessionCookie = cookieUtils.getCookie("session");
         String token = securityService.getBearerToken(request);
-        logger.info(token);
         try {
             if (sessionCookie != null) {
                 session = sessionCookie.getValue();
@@ -64,7 +63,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             }
         } catch (FirebaseAuthException e) {
             e.printStackTrace();
-            log.error("Firebase Exception:: ", e.getLocalizedMessage());
+            log.error("Firebase Exception: ", e.getLocalizedMessage());
         }
         User user = firebaseTokenToUserDto(decodedToken);
         if (user != null) {
