@@ -27,6 +27,7 @@ public class Memory {
     }
 
     public void setRam(String ram) {
+        if (ram.contains("(")) return;
         String[] splited = ram.split(",");
         ArrayList<String> splited2 = new ArrayList<>();
         for (String s : splited) {

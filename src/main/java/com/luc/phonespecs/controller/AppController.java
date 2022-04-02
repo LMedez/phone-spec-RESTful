@@ -19,6 +19,7 @@ public class AppController {
     @Autowired
     private AppServices appServices;
 
+
     @GetMapping("latest-releases")
     public ResponseEntity<List<PhoneDetails>> latestReleases(@RequestParam(required = false) Integer limit) {
         int phonesLimit = 20;
@@ -27,6 +28,16 @@ public class AppController {
         }
 
         return ResponseEntity.ok(appServices.getLatestReleases(phonesLimit));
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<List<PhoneDetails>> search(@RequestParam String query, @RequestParam(required = false) Integer limit) {
+        int phonesLimit = 20;
+        if (limit != null) {
+            phonesLimit = limit;
+        }
+
+        return ResponseEntity.ok(appServices.search(query, phonesLimit));
     }
 
     @GetMapping("best-camera")

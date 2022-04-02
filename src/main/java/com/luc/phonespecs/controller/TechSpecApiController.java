@@ -4,6 +4,7 @@ import com.luc.phonespecs.client.TechSpecClient;
 import com.luc.phonespecs.models.phone.*;
 import com.luc.phonespecs.models.phone.development.PhoneDetails;
 import com.luc.phonespecs.service.FirestoreService;
+import com.luc.phonespecs.service.FirestoreServiceDevelopment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TechSpecApiController {
     private TechSpecClient techSpecClient;
 
     @Autowired
-    private FirestoreService firestoreService;
+    private FirestoreServiceDevelopment firestoreService;
 
     @GetMapping("phones")
     public ResponseEntity<PhoneDetails> getPhones() {
@@ -85,7 +86,7 @@ public class TechSpecApiController {
             phoneDetails.add(techSpecClient.getPhoneDetail(brandPhones.getSlug()).getBody());
         });
 
-        //firestoreService.addPhoneDetail(phoneDetails);
+        firestoreService.addPhoneDetail(phoneDetails);
         return ResponseEntity.ok(phoneDetails.size());
     }
 

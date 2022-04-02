@@ -7,17 +7,23 @@ import com.luc.phonespecs.models.phone.PhoneBrand;
 import com.luc.phonespecs.models.phone.production.PhoneDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class FirestoreService {
 
     @Autowired
     Firestore db;
+
+    List<PhoneDetails> phoneDetailsList = new ArrayList<>();
+
 
     public List<PhoneBrand> getAllBrands() throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future =
@@ -52,7 +58,8 @@ public class FirestoreService {
     public List<PhoneDetails> getLatestReleases(Integer limit) {
         try {
             CollectionReference colRef = db.collection("phone_details");
-            ApiFuture<QuerySnapshot> future = colRef.whereNotEqualTo("released", null)
+            ApiFuture<QuerySnapshot> future = colRef
+                    .whereNotEqualTo("released", null)
                     .orderBy("released", Query.Direction.DESCENDING)
                     .limit(limit)
                     .get();
@@ -64,6 +71,38 @@ public class FirestoreService {
             return phoneDetails;
         } catch (Exception e) {
             throw new ConcurrentException("Error on getting data from Firestore");
+        }
+    }
+
+    public List<PhoneDetails> search(String query, Integer limit) {
+        try {
+            if (phoneDetailsList.isEmpty()) {
+
+                CollectionReference colRef = db.collection("phone_details");
+                ApiFuture<QuerySnapshot> future = colRef
+                        .limit(limit)
+                        .get();
+                List<PhoneDetails> phoneDetails = new ArrayList<>();
+                for (DocumentSnapshot ds : future.get().getDocuments()) {
+                    phoneDetails.add(ds.toObject(PhoneDetails.class));
+                }
+                phoneDetailsList = phoneDetails;
+            }
+
+            List<PhoneDetails> filterByName = phoneDetailsList
+                    .stream()
+                    .filter(phoneDetails1 -> phoneDetails1.getName().contains(StringUtils.capitalize(query)))
+                    .collect(Collectors.toList());
+
+            if (filterByName.isEmpty())
+                return phoneDetailsList
+                        .stream()
+                        .filter(phoneDetails1 -> phoneDetails1.getBrand().contains(StringUtils.capitalize(query)))
+                        .collect(Collectors.toList());
+
+            else return filterByName;
+        } catch (Exception e) {
+            throw new ConcurrentException(e.getMessage());
         }
     }
 

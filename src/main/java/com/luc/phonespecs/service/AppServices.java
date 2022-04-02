@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class AppServices {
@@ -16,6 +16,10 @@ public class AppServices {
 
     public List<PhoneDetails> getLatestReleases(Integer limit) {
         return firestoreService.getLatestReleases(limit);
+    }
+
+    public List<PhoneDetails> search(String query, Integer limit) {
+        return firestoreService.search(query, limit);
     }
 
     public List<PhoneDetails> getWithBestCamera(Integer limit) {
