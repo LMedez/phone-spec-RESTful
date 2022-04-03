@@ -31,9 +31,9 @@ public class Memory {
         String[] splited = ram.split(",");
         ArrayList<String> splited2 = new ArrayList<>();
         for (String s : splited) {
-            if (s.startsWith(" "))
+            if (s.startsWith(" ") && s.replaceFirst(" ", "").split("\\s+").length > 1)
                 splited2.add(s.replaceFirst(" ", "").split("\\s+")[1]);
-            else if(splited2.size() > 1)
+            else if (splited2.size() > 1)
                 splited2.add(s.split("\\s+")[1]);
         }
 

@@ -37,5 +37,4 @@ public class FirebaseConfig {
                 .setCredentials(GoogleCredentials.getApplicationDefault()).build();
         return firestoreOptions.getService();
     }
-
 }

@@ -2,10 +2,13 @@ package com.luc.phonespecs.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import com.luc.phonespecs.exceptions.ConcurrentException;
 import com.luc.phonespecs.models.phone.PhoneBrand;
 import com.luc.phonespecs.models.phone.production.PhoneDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,24 +40,6 @@ public class FirestoreService {
         return phoneBrands;
     }
 
-    public void addPhoneDetail(List<PhoneDetails> phoneDetails) {
-        CollectionReference colRef = db.collection("phone_details");
-        WriteBatch batch = db.batch();
-        for (PhoneDetails data : phoneDetails) {
-            batch.create(colRef.document(), data);
-        }
-        batch.commit();
-    }
-
-    public void saveBrand(List<PhoneBrand> phoneBrands) throws ExecutionException, InterruptedException {
-        CollectionReference colRef = db.collection("brands");
-        WriteBatch batch = db.batch();
-        for (PhoneBrand data : phoneBrands) {
-            batch.create(colRef.document(), data);
-        }
-        batch.commit();
-    }
-
     public List<PhoneDetails> getLatestReleases(Integer limit) {
         try {
             CollectionReference colRef = db.collection("phone_details");
@@ -80,7 +65,6 @@ public class FirestoreService {
 
                 CollectionReference colRef = db.collection("phone_details");
                 ApiFuture<QuerySnapshot> future = colRef
-                        .limit(limit)
                         .get();
                 List<PhoneDetails> phoneDetails = new ArrayList<>();
                 for (DocumentSnapshot ds : future.get().getDocuments()) {
@@ -89,18 +73,22 @@ public class FirestoreService {
                 phoneDetailsList = phoneDetails;
             }
 
-            List<PhoneDetails> filterByName = phoneDetailsList
+            List<PhoneDetails> strictFilter = phoneDetailsList
                     .stream()
-                    .filter(phoneDetails1 -> phoneDetails1.getName().contains(StringUtils.capitalize(query)))
+                    .filter(phoneDetails -> phoneDetails.getName().toLowerCase().contains(query.toLowerCase()))
                     .collect(Collectors.toList());
 
-            if (filterByName.isEmpty())
-                return phoneDetailsList
-                        .stream()
-                        .filter(phoneDetails1 -> phoneDetails1.getBrand().contains(StringUtils.capitalize(query)))
-                        .collect(Collectors.toList());
-
-            else return filterByName;
+            return strictFilter.isEmpty() ? phoneDetailsList
+                    .stream()
+                    .filter(phoneDetails1 -> {
+                        for (String querys : query.split(" ")) {
+                            return phoneDetails1.getName().toLowerCase().contains(querys.toLowerCase())
+                                    || phoneDetails1.getBrand().toLowerCase().contains(querys.toLowerCase());
+                        }
+                        return false;
+                    })
+                    .limit(limit)
+                    .collect(Collectors.toList()) : strictFilter;
         } catch (Exception e) {
             throw new ConcurrentException(e.getMessage());
         }

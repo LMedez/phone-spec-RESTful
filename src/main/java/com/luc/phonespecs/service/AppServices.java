@@ -2,6 +2,7 @@ package com.luc.phonespecs.service;
 
 import com.luc.phonespecs.models.phone.production.PhoneDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -14,6 +15,7 @@ public class AppServices {
     @Autowired
     private FirestoreService firestoreService;
 
+    @Cacheable("latestReleases")
     public List<PhoneDetails> getLatestReleases(Integer limit) {
         return firestoreService.getLatestReleases(limit);
     }
@@ -22,6 +24,7 @@ public class AppServices {
         return firestoreService.search(query, limit);
     }
 
+    @Cacheable("bestCamera")
     public List<PhoneDetails> getWithBestCamera(Integer limit) {
         return firestoreService.getWithBestCamera(limit);
     }

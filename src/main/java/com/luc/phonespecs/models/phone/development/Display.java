@@ -42,6 +42,7 @@ public class Display {
     }
 
     public void setPpi(String ppi) {
+        if (!ppi.contains("~")) return;
         String[] splited = ppi.split("~");
         this.ppi = Integer.parseInt(splited[1].split("\\s+")[0]);
     }
